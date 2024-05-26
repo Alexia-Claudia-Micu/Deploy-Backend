@@ -1,24 +1,8 @@
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:17-jdk-slim
+FROM maven:3.8.5-openjdk-17 AS build
+COPY ..
+RUN mvn clean package -DskipTests
 
-# Copy the Maven wrapper and the Maven project files
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-
-# Make the Maven wrapper executable
-RUN chmod +x ./mvnw
-
-# Download the project dependencies
-RUN ./mvnw dependency:go-offline
-
-# Copy the project source code
-COPY src ./src
-
-# Package the application
-RUN ./mvnw clean package
-
-# Expose the port the application runs on
+FROM openjdk:17.0.1-jdk-slim
+COPY --from=build /target/BackendBirds-0.0.1-SNAPSHOT.jar BackendBirds.jar
 EXPOSE 5000
-
-# Run the application
-CMD ["java", "-jar", "birdBackend.jar"]
+ENTRYPOINT ["java","-jar","BackendBirds.jar"]
