@@ -20,8 +20,5 @@ RUN ./mvnw clean package
 # Expose the port the application runs on
 EXPOSE 5000
 
-# Copy the JAR files into the Docker image
-COPY target/birdBackend.jar target/Backend-0.0.1-SNAPSHOT.jar /app/
-
 # Run the application
 CMD ["java", "-jar", "birdBackend.jar"]
