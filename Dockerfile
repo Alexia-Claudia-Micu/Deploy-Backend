@@ -21,4 +21,4 @@ RUN ./mvnw clean package
 EXPOSE 5000
 
 # Run the application
-CMD ["java", "-jar", "target/Backend-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "birdBackend.jar"]
